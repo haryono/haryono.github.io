@@ -132,7 +132,7 @@
 			return this._div;
 	    };
 	    title.update = function () {
-			this._div.innerHTML = '<h2>Restaurant Location [Transport vs Transaction factors]</h2>Geospatial Assignment 1 - Haryono'
+			this._div.innerHTML = '<h2>Restaurant Location [Transport vs Population factors]</h2>Geospatial Assignment 1 - Haryono'
 		};
 		title.addTo(map);
 		var osmGeocoder = new L.Control.OSMGeocoder({
@@ -146,7 +146,7 @@
 		
 		legend.onAdd = function (map) {
 		var div = L.DomUtil.create('div', 'info legend');
-		div.innerHTML = "<h3>Legend</h3><ul><li>Line - Network</li><li>Chloropath - TransactionFrequency</li><li>Sphere - Cluster</li></ul>";
+		div.innerHTML = "<h3>Legend</h3><ul><li>Line - Network</li><li>Chloropath - Population </li><li>Sphere - Cluster</li></ul>";
     		return div;
 		};
 		legend.addTo(map);
@@ -155,7 +155,7 @@
 		'OSM Standard': basemap_0,
 		'OSM Black & White': basemap_1,
 		'OpenSeaMap': basemap_2};
-	L.control.layers(baseMaps,{"RestaurantType": cluster_groupRestaurantTypeJSON,"MRTNetwork": exp_MRTNetworkJSON,"AverageTransaction": exp_AverageTransactionJSON},{collapsed:false}).addTo(map);
+	L.control.layers(baseMaps,{"RestaurantType": cluster_groupRestaurantTypeJSON,"MRTNetwork": exp_MRTNetworkJSON,"Population": exp_AverageTransactionJSON},{collapsed:false}).addTo(map);
 		function updateOpacity(value) {
 	}
 		map.locate({setView: true, maxZoom: 16});
