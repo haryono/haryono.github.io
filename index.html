@@ -1,1 +1,174 @@
-Hello World
+
+<!DOCTYPE html>
+<html>
+<head> 
+	<title>UrbanFootPrint</title>
+	
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" /> <!-- we will us e this as the styling script for our webmap-->
+	<link rel="stylesheet" href="css/MarkerCluster.css" />
+	<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+	<link rel="stylesheet" type="text/css" href="css/own_style.css">
+	<link rel="stylesheet" href="css/label.css" />
+        <link rel="stylesheet" href="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.css" />	
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> <!-- this is the javascript file that does the magic-->
+	<script src="js/Autolinker.min.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+<body>
+	<div id="map"></div> <!-- this is the initial look of the map. in most cases it is done externally using something like a map.css stylesheet were you can specify the look of map elements, like background color tables and so on.-->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script> <!-- this is the javascript file that does the magic-->
+	<script src="js/leaflet-hash.js"></script>
+	<script src="js/label.js"></script>
+	<script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script>
+	<script src="js/leaflet.markercluster.js"></script>
+	<input id="slide" type="range" min="0" max="1" step="0.1" value="1" onchange="updateOpacity(this.value)">
+				<script src='data/exp_RestaurantType.js' ></script>
+				
+				<script src='data/exp_MRTNetwork.js' ></script>
+				
+				<script src='data/exp_AverageTransaction.js' ></script>
+				
+				
+	<script>
+	function getColor(d) {
+				return d > 4.2 ? '#800026' :
+				       d > 7.4 ? '#BD0026' :
+				       d > 10.6 ? '#E31A1C' :
+				       d > 13.8 ? '#FC4E2A' :
+				       d > 17 ? '#FD8D3C' :
+				       d > 1500000 ? '#FEB24C' :
+				       d > 1000000 ? '#FED976' :
+				                  	 '#FFEDA0' ;
+			}
+		var map = L.map('map', { zoomControl:true }).fitBounds([[0.986361415918,103.038411119],[1.75707241383,104.264578601]]);
+		var hash = new L.Hash(map); //add hashes to html address to easy share locations
+		var additional_attrib = 'created by Haryono';
+	var feature_group = new L.featureGroup([]);
+
+	var raster_group = new L.LayerGroup([]);
+	
+		var basemap_0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+			attribution: additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'});	
+		basemap_0.addTo(map);
+		var basemap_1 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
+			attribution: additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'});
+		var basemap_2 = L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', { 
+			attribution: additional_attrib + 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'});	
+	var layerOrder=new Array();
+							function pop_AverageTransaction(feature, layer) {
+										
+	var popupContent = '<table><tr><th scope="row">ID</th><td>' + Autolinker.link(String(feature.properties['ID'])) + '</td></tr><tr><th scope="row">SZSCD</th><td>' + Autolinker.link(String(feature.properties['SZSCD'])) + '</td></tr><tr><th scope="row">SZZCD</th><td>' + Autolinker.link(String(feature.properties['SZZCD'])) + '</td></tr><tr><th scope="row">DGPZ_CODE</th><td>' + Autolinker.link(String(feature.properties['DGPZ_CODE'])) + '</td></tr><tr><th scope="row">DGPSZ_CODE</th><td>' + Autolinker.link(String(feature.properties['DGPSZ_CODE'])) + '</td></tr><tr><th scope="row">REGION</th><td>' + Autolinker.link(String(feature.properties['REGION'])) + '</td></tr><tr><th scope="row">DGPZ_NAME</th><td>' + Autolinker.link(String(feature.properties['DGPZ_NAME'])) + '</td></tr><tr><th scope="row">DGPSZ_NAME</th><td>' + Autolinker.link(String(feature.properties['DGPSZ_NAME'])) + '</td></tr></table>';
+	layer.bindPopup(popupContent);
+
+
+				}
+						
+				var exp_AverageTransactionJSON = new L.geoJson(exp_AverageTransaction,{
+					onEachFeature: pop_AverageTransaction,
+					style: function (feature) {
+						return {fillColor: feature.properties.color_qgis2leaf,
+								color: '#000',
+								weight: 1,
+								opacity: feature.properties.transp_qgis2leaf,
+								fillOpacity: feature.properties.transp_qgis2leaf};
+						}
+					});
+				feature_group.addLayer(exp_AverageTransactionJSON);
+				
+						//add comment sign to hide this layer on the map in the initial view.
+						exp_AverageTransactionJSON.addTo(map);
+							function pop_MRTNetwork(feature, layer) {
+										
+	var popupContent = '<table><tr><th scope="row">osm_id</th><td>' + Autolinker.link(String(feature.properties['osm_id'])) + '</td></tr><tr><th scope="row">name</th><td>' + Autolinker.link(String(feature.properties['name'])) + '</td></tr><tr><th scope="row">type</th><td>' + Autolinker.link(String(feature.properties['type'])) + '</td></tr></table>';
+	layer.bindPopup(popupContent);
+
+
+				}
+						
+					var exp_MRTNetworkJSON = new L.geoJson(exp_MRTNetwork,{
+						onEachFeature: pop_MRTNetwork,
+						style: function (feature) {
+							return {weight: feature.properties.radius_qgis2leaf,
+									color: feature.properties.color_qgis2leaf,
+									opacity: feature.properties.transp_qgis2leaf,
+									fillOpacity: feature.properties.transp_qgis2leaf};
+							}
+						});
+					feature_group.addLayer(exp_MRTNetworkJSON);
+					
+						//add comment sign to hide this layer on the map in the initial view.
+						exp_MRTNetworkJSON.addTo(map);
+							function pop_RestaurantType(feature, layer) {
+										
+	var popupContent = '<table><tr><th scope="row">SerialNo</th><td>' + Autolinker.link(String(feature.properties['SerialNo'])) + '</td></tr><tr><th scope="row">CompanyNam</th><td>' + Autolinker.link(String(feature.properties['CompanyNam'])) + '</td></tr><tr><th scope="row">PostalCode</th><td>' + Autolinker.link(String(feature.properties['PostalCode'])) + '</td></tr><tr><th scope="row">category</th><td>' + Autolinker.link(String(feature.properties['category'])) + '</td></tr><tr><th scope="row">XCoordinat</th><td>' + Autolinker.link(String(feature.properties['XCoordinat'])) + '</td></tr><tr><th scope="row">YCoordinat</th><td>' + Autolinker.link(String(feature.properties['YCoordinat'])) + '</td></tr></table>';
+	layer.bindPopup(popupContent);
+
+
+				}
+						
+				var exp_RestaurantTypeJSON = new L.geoJson(exp_RestaurantType,{
+					onEachFeature: pop_RestaurantType,
+					pointToLayer: function (feature, latlng) {
+						return L.marker(latlng, {icon: L.icon({
+							iconUrl: feature.properties.icon_exp,
+							iconSize:     [24, 24], // size of the icon change this to scale your icon (first coordinate is x, second y from the upper left corner of the icon)
+							iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location (first coordinate is x, second y from the upper left corner of the icon)
+							popupAnchor:  [0, -14] // point from which the popup should open relative to the iconAnchor (first coordinate is x, second y from the upper left corner of the icon)
+			 				})
+			 			})
+					}}
+				);
+				
+				var cluster_groupRestaurantTypeJSON= new L.MarkerClusterGroup({showCoverageOnHover: false});
+				cluster_groupRestaurantTypeJSON.addLayer(exp_RestaurantTypeJSON);
+				
+						//add comment sign to hide this layer on the map in the initial view.
+						cluster_groupRestaurantTypeJSON.addTo(map);
+		var title = new L.Control();
+		title.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+			this.update();
+			return this._div;
+	    };
+	    title.update = function () {
+			this._div.innerHTML = '<h2>Restaurant Location [Transport vs Transaction factors]</h2>Geospatial Assignment 1 - Haryono'
+		};
+		title.addTo(map);
+		var osmGeocoder = new L.Control.OSMGeocoder({
+            collapsed: false,
+            position: 'topright',
+            text: 'Find!',
+			});
+		osmGeocoder.addTo(map);
+		
+		var legend = L.control({position: 'bottomright'});
+		
+		legend.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info legend');
+		div.innerHTML = "<h3>Legend</h3><ul><li>Line - Network</li><li>Chloropath - TransactionFrequency</li><li>Sphere - Cluster</li></ul>";
+    		return div;
+		};
+		legend.addTo(map);
+
+	var baseMaps = {
+		'OSM Standard': basemap_0,
+		'OSM Black & White': basemap_1,
+		'OpenSeaMap': basemap_2};
+	L.control.layers(baseMaps,{"RestaurantType": cluster_groupRestaurantTypeJSON,"MRTNetwork": exp_MRTNetworkJSON,"AverageTransaction": exp_AverageTransactionJSON},{collapsed:false}).addTo(map);
+		function updateOpacity(value) {
+	}
+		map.locate({setView: true, maxZoom: 16});
+		function onLocationFound(e) {
+    		var radius = e.accuracy / 2;
+			L.marker(e.latlng).addTo(map)
+        	.bindPopup("You are within " + radius + " meters from this point").openPopup();
+			L.circle(e.latlng, radius).addTo(map);
+		}
+		map.on('locationfound', onLocationFound);
+		
+	L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
+	</script>
+</body>
+</html>
+	
