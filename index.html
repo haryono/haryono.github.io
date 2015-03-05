@@ -146,7 +146,7 @@
 		
 		legend.onAdd = function (map) {
 		var div = L.DomUtil.create('div', 'info legend');
-		div.innerHTML = "<h3>Legend</h3><ul><li>Line - Network</li><li>Chloropath - Population </li><li>Sphere - Cluster</li></ul>";
+		div.innerHTML = "<h3>Legend</h3><ul><li>Line - Network</li><li>Choropleth - Population[(low)white to blue(High)]</li><li>Point - Cluster</li></ul>";
     		return div;
 		};
 		legend.addTo(map);
